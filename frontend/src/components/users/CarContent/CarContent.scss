@@ -1,0 +1,101 @@
+.cars_wrapper1 {
+    padding-top: 100px;
+}
+
+.car_fleets1 {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.car_fleets1 {
+    max-width: 1400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 5rem;
+    row-gap: 1.4rem;
+
+    h3 {
+        font-size: 35px;
+        color: #5e503f;
+    }
+
+}
+
+.car_cards1 {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.filter_sec {
+    width: calc(100% - 6rem);
+    display: flex;
+    justify-content: flex-end;
+
+    .filter_wrapper {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        column-gap: .5rem;
+
+        .search {
+            display: flex;
+            align-items: center;
+            column-gap: .3rem;
+
+            input {
+                padding: .3rem .5rem;
+                width: 300px;
+                border-radius: 20px;
+                border: solid 1px #5e503f;
+
+                &:focus {
+                    outline: solid 1px #5e503f;
+                }
+            }
+
+            span {
+                font-size: 20px;
+                color: #5e503f;
+                cursor: pointer;
+                transition: all .2s ease;
+                border-radius: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: .3rem;
+
+                &:hover {
+                    background-color: #5e503f;
+                    color: white;
+                }
+            }
+        }
+    }
+}
+
+.filter_span {
+    font-size: 25px;
+    color: #5e503f;
+    cursor: pointer;
+    transition: all .2s ease;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .2rem;
+
+    &:hover {
+        background-color: #5e503f;
+        color: white;
+    }
+}

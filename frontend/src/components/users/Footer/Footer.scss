@@ -1,0 +1,48 @@
+.footer {
+    color: #5e503f;
+    background-color: white;
+    padding: 2rem;
+}
+
+.footer_wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.upper_part {
+    margin-bottom: 2rem;
+}
+
+.lower_part {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    column-gap: 2rem;
+
+    .address_part {
+        h3 {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .address {
+            display: flex;
+            column-gap: 5px;
+        }
+
+    }
+
+    .social_media {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        row-gap: 1rem;
+
+        span{
+            display: flex;
+            align-items: center;
+            column-gap: 5px;
+        }
+    }
+}

@@ -1,0 +1,27 @@
+$primary-color: rgba(94, 80, 63, 0.81);
+$secondary-color: rgba(242, 244, 243, 1);
+
+.single_card {
+    background-color: white;
+    border: solid 2px $primary-color;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+    box-shadow: 3px 3px 5px 1px rgba(94, 80, 63, 0.106);
+
+    span {
+        color: $primary-color;
+    }
+}
+
+.card_content h4 {
+    color: $primary-color;
+    font-size: 1.4rem;
+}
+
+.card_content span {
+    color: #1E1E1E;
+    font-size: 1.4rem;
+}

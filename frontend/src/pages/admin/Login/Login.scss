@@ -1,0 +1,45 @@
+.login_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.head{
+    width: 300px;
+    margin-bottom: 20px;
+    img{
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    h1{
+        font-size: 30px;
+        font-weight: 600;
+    }
+}
+
+.login_wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.field{
+    width: 100%;
+    form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 1rem;
+
+        
+        .errorMessage {
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            font-weight: 300;
+            color: red;
+        }
+    }
+}

@@ -1,0 +1,28 @@
+$primary-color: rgba(94, 80, 63, 0.81);
+$secondary-color: rgba(242, 244, 243, 1);
+
+
+.dashboard {
+    margin-top: 100px;
+}
+
+.dashboard_cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 2rem;
+
+}
+.statics{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+    
+}
+.stats{
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    min-height: 200px;
+    box-shadow: 3px 3px 5px 1px rgba(94, 80, 63, 0.106);
+}
