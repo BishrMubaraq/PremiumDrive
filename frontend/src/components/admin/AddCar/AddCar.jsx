@@ -1,40 +1,58 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './AddCar.scss'
 import { useForm } from 'react-hook-form'
 import previewImage from '../../../assets/previewDemo.jpg'
-import axios from 'axios'
 import { toast } from 'react-toastify'
+import { useSelector, useDispatch } from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+import { reset, addCar } from '../../../redux/features/cars/carSlice'
+import Spinner from '../../Spinner/Spinner'
 
 
 const AddCar = ({ type, stateChange }) => {
 
-    const [imageData, setImageData] = useState()
     const [preview, setPreview] = useState()
     const [image, setImage] = useState()
     const { register, handleSubmit, formState: { errors } } = useForm()
 
-    const handleFileChange = ({ target }) => {
-        setImageData(target.files[0])
-        setImage(target.value)
-        setPreview(URL.createObjectURL(target.files[0]))
+    const { isLoading, isError, isSuccess, message } = useSelector((state) => state.cars)
+    const dispatch = useDispatch()
+    const navigate=useNavigate()
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message)
+        }
+        if (isSuccess) {
+            toast.success(message)
+            navigate('/admin/cars')
+        }
+        dispatch(reset())
+    }, [isError, message, isSuccess, dispatch])
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0]
+        setPreview(URL.createObjectURL(e.target.files[0]))
+        setFileToBase(file)
     }
 
-    const onSubmit = async (data) => {
+    const setFileToBase = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setImage(reader.result)
+        }
+    }
+
+    const onSubmit = (data) => {
         const { name, rent, body, place, brand, transmission, fuel, registrationNo } = data
 
-        const formData = new FormData()
-        formData.append('image', imageData)
-        const carData = { name, rent, body, place, brand, transmission, fuel, registrationNo, formData }
-        await axios.post('http://localhost:5000/api/admin/addCars', carData, {
-            headers:{
-                Authorization:localStorage.getItem("admin").token
-            }
-        }).then((res) => {
-            toast.success(res.message)
-        }).catch((error) => {
-            toast.error(error)
-        })
+        const carData = { name, rent, body, place, brand, transmission, fuel, registrationNo, image }
+        dispatch(addCar(carData))
+    }
 
+    if (isLoading) {
+        return (<><Spinner /></>)
     }
 
     return (
@@ -118,7 +136,7 @@ const AddCar = ({ type, stateChange }) => {
                     <div className='add_car_input_wrapper'>
                         <label htmlFor="">Image</label>
                         <img className='previewImage' src={preview ? preview : previewImage} alt="preview" />
-                        <input type={'file'} name="image" value={image} accept='image/*' required onChange={handleFileChange} />
+                        <input type={'file'} name="image" accept='image/*' required onChange={handleFileChange} />
                     </div>
                     <button type='submit'>{type}</button>
                 </form>

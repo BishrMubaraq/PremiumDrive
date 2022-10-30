@@ -1,60 +1,79 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
+import { useSelector, useDispatch } from 'react-redux'
+import Spinner from '../../Spinner/Spinner'
+import { useEffect } from 'react';
+import { toast } from 'react-toastify'
+import { allUsers, reset,blockAndUnblock } from '../../../redux/features/adminUsers/adminUsersSlice'
+import './UsersContent.scss'
 
-const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  {
-    field: 'firstName',
-    headerName: 'First name',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 110,
-    editable: true,
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-  },
-];
-
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
 
 export default function UsersContent() {
+  const dispatch = useDispatch()
+  const { users, isLoading, isSuccess, isError, message } = useSelector((state) => state.adminUsers)
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+    if(isSuccess){
+      toast.success(message.message)
+    }
+    dispatch(allUsers())
+    return () => {
+      dispatch(reset())
+    }
+  }, [dispatch, message, isError])
+
+  const columns = [
+    { field: 'id', headerName: 'id', width: 100, hide: true },
+    { field: 'slNo', headerName: 'slNo', width: 100 },
+    { field: 'name', headerName: 'Name', width: 200 },
+    {
+      field: 'email',
+      headerName: 'Email',
+      width: 250,
+    },
+    {
+      field: 'phoneNumber',
+      headerName: 'Phone Number',
+      width: 200,
+    },
+    {
+      field: 'isBlocked',
+      headerName: 'Action',
+      width: 150,
+      renderCell: (value) => {
+        return (<><button onClick={()=>dispatch(blockAndUnblock(value.row.id))} className={value.row.isBlocked?'unBlock_btn':'block_btn'}>{value.row.isBlocked?'Unblock':'Block'}</button></>)
+      }
+    },
+  ];
+
+  const rows = users.map((user, index) => {
+    return {
+      id: user._id,
+      slNo: index + 1,
+      name: user.name,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      isBlocked: user.isBlocked
+    }
+  })
+
+
+
+  if (isLoading) {
+    return (<><Spinner /></>)
+  }
   return (
     <Box mt={'100px'} sx={{ height: 500, width: '100%' }}>
       <DataGrid
-        rows={rows}
         columns={columns}
+        rows={rows}
         pageSize={8}
         rowsPerPageOptions={[5]}
-       
+
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
       />

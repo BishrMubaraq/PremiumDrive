@@ -21,15 +21,6 @@ const CarContent = () => {
         </div>
         <div className="car_cards1">
           <CarCard />
-          <CarCard />
-          <CarCard />
-          <CarCard />
-          <CarCard />
-          <CarCard />
-          <CarCard />
-          <CarCard />
-          <CarCard />
-          <CarCard />
         </div>
       </div>
               

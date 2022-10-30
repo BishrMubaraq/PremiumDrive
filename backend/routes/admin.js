@@ -19,6 +19,6 @@ router.post('/addCars', adminProtect, adminAddCars)
 router.patch('/deleteCar',adminProtect,adminDeleteCar)
 router.put('/editCar',adminProtect,adminEditCar)
 router.get('/users',adminProtect,adminUsers)
-router.patch('/blockAndUnblockUser',adminProtect,blockAndUnblockUser)
+router.patch('/blockAndUnblockUser',blockAndUnblockUser)
 
 module.exports = router
