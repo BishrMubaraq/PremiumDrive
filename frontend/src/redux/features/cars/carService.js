@@ -30,8 +30,6 @@ const cars = async(token)=>{
 
 // Delete car
 const deleteCar=async(id,token)=>{
-    console.log('id=',id);
-    console.log('token=',token);
     const config = {
         headers: {
             Authorization: `Bearer ${token}`

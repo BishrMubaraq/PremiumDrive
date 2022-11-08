@@ -42,6 +42,17 @@ $secondary-color:rgba(242, 244, 243, 1);
 .nav_item{
     display: flex;
     flex-direction: column;
+
+    hr{
+        margin-block: 1rem;
+        color: $primary-color;
+    }
+
+    span{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 .menu{
@@ -65,6 +76,7 @@ $secondary-color:rgba(242, 244, 243, 1);
 .sidebar_bottom span{
     color: red;
     cursor: pointer;
+    padding-inline: 0;
 }
 
 .nav_active{
@@ -75,4 +87,45 @@ $secondary-color:rgba(242, 244, 243, 1);
 .nav_list{
     display: flex;
     align-items: center;
+}
+
+@media screen and (max-width:1100px) {
+    .sidebar{
+        width: 80px;
+        padding-left: 0px;
+    }
+    .sidebar_top{
+        display: none;
+    }
+    .sidebar_content{
+        align-items: center;
+    }
+    .menu{
+        height: 60%;
+    }
+    .nav_item{
+
+        .nav_link_label{
+            display: none;
+        }
+    }
+    .nav_link,.sidebar_bottom span{
+        margin-bottom: .6rem;
+        padding-inline: 1rem;
+        border-radius: 20px;
+        color: $primary-color;
+    }
+    .nav_active{
+        background-color: $primary-color;
+        color: $secondary-color;
+    }
+    .sidebar_bottom span{
+        color: red;
+        cursor: pointer;
+
+        .logout_label{
+            display: none;
+        }
+        
+    }
 }

@@ -13,16 +13,33 @@ $secondary-color: rgba(242, 244, 243, 1);
 
 }
 .statics{
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 1rem;
-    margin-top: 2rem;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+   
     
 }
 .stats{
+    width: 100%;
     background-color: white;
     padding: 30px;
     border-radius: 20px;
-    min-height: 200px;
+    min-height: 100px;
     box-shadow: 3px 3px 5px 1px rgba(94, 80, 63, 0.106);
+}
+
+@media screen and (max-width:900px) {
+    .dashboard_cards{
+        grid-template-columns: repeat(2,1fr);
+        row-gap: 1rem;
+    }
+}
+@media screen and (max-width:520px) {
+    .dashboard_cards{
+        grid-template-columns: 1fr;
+        row-gap: 1rem;
+    }
 }

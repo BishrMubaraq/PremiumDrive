@@ -68,6 +68,7 @@ export default function UsersContent() {
   }
   return (
     <Box mt={'100px'} sx={{ height: 500, width: '100%' }}>
+      <h3>All Users</h3>
       <DataGrid
         columns={columns}
         rows={rows}

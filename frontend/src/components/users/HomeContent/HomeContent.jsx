@@ -1,27 +1,41 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './HomeContent.scss'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-
+import { useSelector, useDispatch } from 'react-redux'
+import { allCars, reset } from '../../../redux/features/users/cars/carSlice'
 import CarCard from '../CarCard/CarCard'
 
 const HomeContent = () => {
+  const dispatch = useDispatch()
+  const { cars, isLoading } = useSelector((state) => state.userCars)
+
+  useEffect(() => {
+    dispatch(allCars())
+    return () => {
+      dispatch(reset())
+    }
+  }, [dispatch])
+  const lastSixCars = cars.slice(0, 6)
+
 
   const { register, handleSubmit, formState: { errors } } = useForm()
   const navigate = useNavigate()
 
-  const onSubmit=(data)=>{
+  const onSubmit = (data) => {
     console.log(data);
   }
   return (
     <div className="landing_page_wrapper">
       <div className="hero_section">
+        <div className="hero_content">
         <div className="hero_text">
           <h1>Drive of your Life.</h1>
           <p>Search and find your best car rental with easy way</p>
           <a href='#booking'>
             <button className='hero_btn'>Booking Now</button>
           </a>
+        </div>
         </div>
       </div>
       <div id='booking' className="search_section">
@@ -31,7 +45,7 @@ const HomeContent = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <label htmlFor="">Pickup City</label>
-                <select className={errors.pickupCity?'normalInput errorInput':'normalInput'} name="pickupCity" {...register('pickupCity',{required:'Please select pickup city'})} >
+                <select className={errors.pickupCity ? 'normalInput errorInput' : 'normalInput'} name="pickupCity" {...register('pickupCity', { required: 'Please select pickup city' })} >
                   <optgroup>
                     <option hidden value="">Select City</option>
                     <option value="Calicut">Calicut</option>
@@ -41,7 +55,7 @@ const HomeContent = () => {
               </div>
               <div>
                 <label htmlFor="">Dropoff City</label>
-                <select className={errors.dropoffCity?'normalInput errorInput':'normalInput'} name="dropoffCity" {...register('dropoffCity',{required:'Please select dropoff city'})}>
+                <select className={errors.dropoffCity ? 'normalInput errorInput' : 'normalInput'} name="dropoffCity" {...register('dropoffCity', { required: 'Please select dropoff city' })}>
                   <optgroup>
                     <option hidden value="">Select City</option>
                     <option value="Calicut">Calicut</option>
@@ -51,11 +65,11 @@ const HomeContent = () => {
               </div>
               <div>
                 <label htmlFor="">Pickup Date</label>
-                <input className={errors.pickupDate?'normalInput errorInput':'normalInput'} type="date" name='pickupDate' {...register('pickupDate',{required:'Please select pickup date'})} />
+                <input className={errors.pickupDate ? 'normalInput errorInput' : 'normalInput'} type="date" name='pickupDate' {...register('pickupDate', { required: 'Please select pickup date' })} />
               </div>
               <div>
                 <label htmlFor="">Dropoff Date</label>
-                <input className={errors.dropoffDate?'normalInput errorInput':'normalInput'} type="date" name='dropoffDate' {...register('dropoffDate',{required:'Please select dropoff date'})} />
+                <input className={errors.dropoffDate ? 'normalInput errorInput' : 'normalInput'} type="date" name='dropoffDate' {...register('dropoffDate', { required: 'Please select dropoff date' })} />
               </div>
 
               <button type='submit'><i className="ri-search-line"></i></button>
@@ -63,6 +77,7 @@ const HomeContent = () => {
           </div>
         </div>
       </div>
+      <div className="car_fleet_wrapper">
       <div className="car_fleets">
         <div className="fleet_title">
           <h3>Our Fleets</h3>
@@ -78,16 +93,12 @@ const HomeContent = () => {
           </ul>
         </div>
         <div className="car_cards">
-          <CarCard />
-          <CarCard />
-          <CarCard />
-          <CarCard />
-          <CarCard />
-          <CarCard />
-          <CarCard />
-          <CarCard />
+          {lastSixCars.map((car) => (
+            <CarCard key={car._id} name={car.name} rent={car.rent} id={car._id} image={car.image.url} />
+          ))}
         </div>
         <button onClick={() => navigate('/cars')} className='view_more'>View More</button>
+      </div>
       </div>
     </div>
   )

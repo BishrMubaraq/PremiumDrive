@@ -1,4 +1,4 @@
-.unBlock_btn{
+.unBlock_btn {
     padding: .5rem .7rem;
     background-color: rgb(82, 193, 113);
     border: none;
@@ -6,24 +6,60 @@
     border-radius: 20px;
     cursor: pointer;
 
-    &:hover{
+    &:hover {
         background-color: transparent;
-        color:  rgb(82, 193, 113);
-        border: solid 1px  rgb(82, 193, 113);
+        color: rgb(82, 193, 113);
+        border: solid 1px rgb(82, 193, 113);
     }
 }
-.block_btn{
+
+.block_btn {
     padding: .5rem .7rem;
     background-color: rgb(222, 79, 79);
-   
+
     border: none;
     color: white;
     border-radius: 20px;
     cursor: pointer;
     transition: all .2s ease-in;
-    &:hover{
+
+    &:hover {
         background-color: transparent;
-        color:  rgb(222, 79, 79);
+        color: rgb(222, 79, 79);
         border: solid 1px rgb(222, 79, 79);
+    }
+}
+
+h3 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+}
+
+.approve_btn,
+.decline_btn {
+    padding: .5rem .7rem;
+    background-color: rgb(222, 79, 79);
+    margin-right: 5px;
+    border: none;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all .2s ease-in;
+
+    &:hover {
+        background-color: transparent;
+        color: rgb(222, 79, 79);
+        border: solid 1px rgb(222, 79, 79);
+    }
+}
+
+.approve_btn {
+    background-color: rgb(82, 193, 113);
+
+    &:hover {
+        background-color: transparent;
+        color: rgb(82, 193, 113);
+        border: solid 1px rgb(82, 193, 113);
     }
 }

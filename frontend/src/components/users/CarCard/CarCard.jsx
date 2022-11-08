@@ -1,17 +1,17 @@
 import React from 'react'
 import './CarCard.scss'
-import Car from '../../../assets/HeroImg.jpg'
 
-const CarCard = () => {
+
+const CarCard = ({name,rent,image,id}) => {
     return (
         <div className="single_car_card">
             <div className="top_section">
-                <img src={Car} alt="" />
+                <img src={image} alt="" />
             </div>
             <div className="bottom_section">
                 <div className="details_sec">
-                    <h4>Ford Raptor</h4>
-                    <h6>6000/Day</h6>
+                    <h4>{name}</h4>
+                    <h6>{rent}/Day</h6>
                 </div>
                 <div className="btn_sec">
                     <button>Book Now</button>

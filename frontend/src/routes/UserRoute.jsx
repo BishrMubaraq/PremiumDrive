@@ -6,6 +6,7 @@ import Login from '../pages/users/Login/Login'
 import Signup from '../pages/users/Signup/Signup'
 import OtpVerification from '../pages/users/OtpVerification/OtpVerification'
 import Cars from '../pages/users/Cars/Cars'
+import SingleCar from '../pages/users/SingleCar/SingleCar'
 
 const UserRoute = () => {
   return (
@@ -16,7 +17,7 @@ const UserRoute = () => {
       <Route path='/signup' element={<Signup/>} />
       <Route path='/otp' element={<OtpVerification/>} />
       <Route path='/cars' element={<Cars/>} />
-
+      <Route path='/car/:id' element={<SingleCar/>} />
     </Routes>
     </>
   )

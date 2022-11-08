@@ -1,6 +1,6 @@
 .footer {
     color: #5e503f;
-    background-color: white;
+    background-color: rgb(227, 227, 227);
     padding: 2rem;
 }
 
@@ -44,5 +44,16 @@
             align-items: center;
             column-gap: 5px;
         }
+    }
+}
+
+@media screen and (max-width:760px) {
+    .footer{
+        padding: 1rem;
+    }
+    .lower_part{
+        flex-direction: column;
+        row-gap: 2rem;
+        align-items: flex-start;
     }
 }

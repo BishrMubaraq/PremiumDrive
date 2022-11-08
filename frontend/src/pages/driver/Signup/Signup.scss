@@ -1,0 +1,94 @@
+.driver_container {
+    min-height: 100vh;
+    background-color: #9e866a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_wrapper {
+    display: flex;
+    justify-content: center;
+    row-gap: .5rem;
+    background-color: white;
+    opacity: .92;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0px 2px 2px 2px #5e503f19;
+
+    .logo_wrapper {
+        width: 300px;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    h1 {
+        font-weight: 500;
+        font-size: 25px;
+    }
+
+    form {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        row-gap: 1.2rem;
+
+            .errorMessage {
+                margin: 0;
+                padding: 0;
+                font-size: 12px;
+                font-weight: 300;
+                color: red;
+            }
+        
+
+
+        input {
+            width: 250px;
+            padding: .7rem;
+            border: solid 1px #5e503f;
+            border-radius: 20px;
+
+            &:focus {
+                outline: solid 1px #5e503f80;
+            }
+        }
+
+        .forget_password {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            font-size: small;
+        }
+
+        button {
+            width: 150px;
+            font-size: 17px;
+            padding: .5rem;
+            border-radius: 20px;
+            border: none;
+            background-color: #5e503f;
+            color: white;
+            transition: all .2s ease-in;
+            cursor: pointer;
+
+            &:hover {
+                color: #5e503f;
+                background-color: white;
+                box-shadow: 1px 1px 3px 1px #5e503f56;
+            }
+        }
+
+        p {
+            color: #5e503f;
+            font-weight: 100;
+        }
+    }
+
+
+    .signup_link {
+        font-size: small;
+    }
+}

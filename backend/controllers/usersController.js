@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const Users = require('../models/userModel')
+const Cars = require('../models/carModel')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { doSms, verifyOtp } = require('../helpers/otpVerification')
@@ -105,6 +106,18 @@ const getUserDetails = asyncHandler(async (req, res) => {
         name, email, phoneNumber
     })
 })
+// @desc Get all cars
+// @route GET /api/users/cars
+// @access Public
+const getCars = asyncHandler(async (req, res) => {
+    const cars = await Cars.find({ isDeleted: false }).sort({ createdAt: -1 })
+    if (cars) {
+        res.status(200).json(cars)
+    } else {
+        res.status(400)
+        throw new Error('Something went wrong!')
+    }
+})
 
 //Generate Tocken
 const generateTocken = (id) => {
@@ -118,5 +131,6 @@ module.exports = {
     registerUser,
     loginUser,
     getUserDetails,
-    otpVerification
+    otpVerification,
+    getCars
 }

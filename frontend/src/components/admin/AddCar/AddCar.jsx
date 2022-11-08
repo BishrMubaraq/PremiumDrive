@@ -6,6 +6,8 @@ import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import { reset, addCar } from '../../../redux/features/cars/carSlice'
+import { getPlaces } from '../../../redux/features/places/placeSlice'
+import { getBrands } from '../../../redux/features/brands/brandSlice'
 import Spinner from '../../Spinner/Spinner'
 
 
@@ -16,6 +18,9 @@ const AddCar = ({ type, stateChange }) => {
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const { isLoading, isError, isSuccess, message } = useSelector((state) => state.cars)
+    const {places} =useSelector((state)=>state.places)
+    const {brands} =useSelector((state)=>state.brands)
+
     const dispatch = useDispatch()
     const navigate=useNavigate()
 
@@ -24,9 +29,11 @@ const AddCar = ({ type, stateChange }) => {
             toast.error(message)
         }
         if (isSuccess) {
-            toast.success(message)
+            toast.success(message.message)
             navigate('/admin/cars')
         }
+        dispatch(getPlaces())
+        dispatch(getBrands())
         dispatch(reset())
     }, [isError, message, isSuccess, dispatch])
 
@@ -80,15 +87,23 @@ const AddCar = ({ type, stateChange }) => {
                         <select name="place" {...register('place', { required: 'Please select place' })}>
                             <optgroup>
                                 <option hidden value=''>Select City</option>
-                                <option value="Calicut">Calicut</option>
-                                <option value="Kochi">Kochi</option>
+                                {places.map((place)=>(
+                                <option key={place._id} value={place.place}>{place.place}</option>
+                                ))}
                             </optgroup>
                         </select>
                         {errors.place && <p className='errorMessage'>{errors.place?.message}</p>}
                     </div>
                     <div className='add_car_input_wrapper'>
                         <label htmlFor="">Brand</label>
-                        <input type="text" name="brand" id="" {...register('brand', { required: 'Please enter brand' })} />
+                        <select name="brand" {...register('brand', { required: 'Please select Brand' })}>
+                            <optgroup>
+                                <option hidden value=''>Select Brand</option>
+                                {brands.map((brand)=>(
+                                <option key={brand._id} value={brand.brand}>{brand.brand}</option>
+                                ))}
+                            </optgroup>
+                        </select>
                         {errors.brand && <p className='errorMessage'>{errors.brand?.message}</p>}
                     </div>
                     <div className='add_car_input_wrapper'>

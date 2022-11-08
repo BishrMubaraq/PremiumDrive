@@ -3,7 +3,8 @@ const {
     registerUser,
     loginUser,
     getUserDetails,
-    otpVerification
+    otpVerification,
+    getCars
 } = require('../controllers/usersController')
 const router = express.Router()
 const { protect } = require('../middleware/authMiddleware')
@@ -11,7 +12,8 @@ const { protect } = require('../middleware/authMiddleware')
 router.post('/register', registerUser)
 router.post('/login', loginUser)
 router.post('/otp', otpVerification)
-router.get('/me', protect, getUserDetails)
+router.get('/cars', getCars)
+router.get('/cars', protect, getUserDetails)
 
 
 module.exports = router
