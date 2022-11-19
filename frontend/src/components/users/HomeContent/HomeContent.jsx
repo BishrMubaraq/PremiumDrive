@@ -5,17 +5,21 @@ import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
 import { allCars, reset } from '../../../redux/features/users/cars/carSlice'
 import CarCard from '../CarCard/CarCard'
+import { getPlaces,placeReset } from '../../../redux/features/places/placeSlice'
 
 const HomeContent = () => {
   const dispatch = useDispatch()
   const { cars, isLoading } = useSelector((state) => state.userCars)
+  const { places} = useSelector((state) => state.places)
 
   useEffect(() => {
     dispatch(allCars())
+    dispatch(getPlaces())
     return () => {
       dispatch(reset())
+      dispatch(placeReset())
     }
-  }, [dispatch])
+  }, [])
   const lastSixCars = cars.slice(0, 6)
 
 
@@ -48,18 +52,9 @@ const HomeContent = () => {
                 <select className={errors.pickupCity ? 'normalInput errorInput' : 'normalInput'} name="pickupCity" {...register('pickupCity', { required: 'Please select pickup city' })} >
                   <optgroup>
                     <option hidden value="">Select City</option>
-                    <option value="Calicut">Calicut</option>
-                    <option value="Kochi">Kochi</option>
-                  </optgroup>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="">Dropoff City</label>
-                <select className={errors.dropoffCity ? 'normalInput errorInput' : 'normalInput'} name="dropoffCity" {...register('dropoffCity', { required: 'Please select dropoff city' })}>
-                  <optgroup>
-                    <option hidden value="">Select City</option>
-                    <option value="Calicut">Calicut</option>
-                    <option value="Kochi">Kochi</option>
+                    {places.map((place)=>(
+                    <option key={place._id} value={place.place}>{place.place}</option>
+                    ))}
                   </optgroup>
                 </select>
               </div>
@@ -94,7 +89,7 @@ const HomeContent = () => {
         </div>
         <div className="car_cards">
           {lastSixCars.map((car) => (
-            <CarCard key={car._id} name={car.name} rent={car.rent} id={car._id} image={car.image.url} />
+            <CarCard key={car._id} name={car.name} rent={car.rent} id={car._id} place={car.place} image={car.image.url} />
           ))}
         </div>
         <button onClick={() => navigate('/cars')} className='view_more'>View More</button>

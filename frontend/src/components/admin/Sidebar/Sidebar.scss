@@ -53,6 +53,14 @@ $secondary-color:rgba(242, 244, 243, 1);
         justify-content: center;
         align-items: center;
     }
+    .badge{
+        background-color: white;
+        padding: 2px;
+        color: $primary-color;
+        border-radius: 20px;
+        width: 20px;
+        height: 20px;
+    }
 }
 
 .menu{

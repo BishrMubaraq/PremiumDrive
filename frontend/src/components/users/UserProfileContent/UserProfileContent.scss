@@ -1,0 +1,70 @@
+.profile_container{
+    padding-top: 100px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .profile_sec_wrapper{
+        padding: 2rem;
+        background-color: white;
+        width: 50vw;
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+        justify-content: center;
+        align-items: center;
+        .line{
+            display: flex;
+            width: 100%;
+            gap: 2rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .edit_sec{
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+            .edit_btn{
+                margin: 10px 0px;
+                padding: 7px 15px;
+                border: none;
+                color: white;
+                background-color: rgb(93, 93, 205);
+                cursor: pointer;
+                transition: all .3s ease-in;
+                &:hover{
+                    border-radius: 20px;
+                }
+            }
+        }
+            .bottom_sec{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+
+            .booking_btn,.logout_btn{
+                margin: 10px 0px;
+            padding: 7px 15px;
+            border: none;
+            color: white;
+            background-color: rgb(93, 93, 205);
+            cursor: pointer;
+            transition: all .3s ease-in;
+            &:hover{
+                border-radius: 20px;
+            }
+            }
+            .logout_btn{
+                background-color: rgb(225, 72, 72);
+            }
+        }
+    }
+}
+@media screen and (max-width:768px) {
+    .profile_container{
+        .profile_sec_wrapper{
+            width: 100%;
+        }
+    }
+}

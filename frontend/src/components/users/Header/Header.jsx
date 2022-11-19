@@ -1,8 +1,7 @@
 import React,{useState} from 'react'
 import Logo from '../../../assets/PREMIUMDRIVE.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../../../redux/features/auth/authSlice'
+import { useSelector } from 'react-redux'
 import './Header.scss'
 
 function Header() {
@@ -12,7 +11,6 @@ function Header() {
     const navigate = useNavigate()
 
     const { user } = useSelector((state) => state.auth)
-    const dispatch = useDispatch()
     return (
         <header className='header'>
             <div className="header_wrapper">
@@ -31,7 +29,7 @@ function Header() {
                     <div className='register_part'>
                         {!user ? <button onClick={() => {
                             navigate('/login')
-                        }}>Login</button> : <span onClick={() => dispatch(logout())}><i className="ri-account-circle-fill"></i></span>}
+                        }}>Login</button> : <span onClick={() => navigate('/profile')}><i className="ri-account-circle-fill"></i></span>}
                     </div>
 
                     <div className="menu">

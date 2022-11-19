@@ -25,8 +25,7 @@ export const addBrand = createAsyncThunk('brands/add', async (brand, thunkAPI) =
 // get brands
 export const getBrands = createAsyncThunk('brands/get', async (_, thunkAPI) => {
     try {
-        const token = thunkAPI.getState().adminAuth.admin.token
-        return await brandService.getBrands(token)
+        return await brandService.getBrands()
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)

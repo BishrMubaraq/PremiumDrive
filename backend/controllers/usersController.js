@@ -1,10 +1,13 @@
 const asyncHandler = require('express-async-handler')
 const Users = require('../models/userModel')
 const Cars = require('../models/carModel')
+const Bookings = require('../models/bookingModel')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { doSms, verifyOtp } = require('../helpers/otpVerification')
-
+const moment = require('moment')
+const Stripe = require('stripe')
+const stripe = Stripe('sk_test_51M5R0ySBtCPIDeQ83Qb2SZR15XLhqsNwx0MsrRcjLhfxCO1vYm2zicuIkuIaAFYExiViKS5FOapeZkCJ7A88SHgk00dTxzNwMt')
 // @desc Register user
 // @route POST /api/users/register
 // @access Public
@@ -78,8 +81,8 @@ const loginUser = asyncHandler(async (req, res) => {
     const user = await Users.findOne({ email })
 
     // Check for user status
-    if(user.isBlocked){
-        res.status(400).json({message:'Account Blocked'})
+    if (user.isBlocked) {
+        res.status(400).json({ message: 'Account Blocked' })
     }
 
     if (user && (await bcrypt.compare(password, user.password)) && !user.isBlocked) {
@@ -118,6 +121,81 @@ const getCars = asyncHandler(async (req, res) => {
         throw new Error('Something went wrong!')
     }
 })
+// @desc Get all cars
+// @route GET /api/users/cars
+// @access Public
+const getCar = asyncHandler(async (req, res) => {
+    const car = await Cars.findById(req.query.id)
+    if (car) {
+        res.status(200).json(car)
+    } else {
+        res.status(400)
+        throw new Error('Something went wrong!')
+    }
+})
+
+// @desc Book cars
+// @route POST /api/users/bookCar
+// @access Private
+const bookCar = asyncHandler(async (req, res) => {
+    const { user, car, totalAmount, totalDays, pickUpDate, dropOffDate, dropOffCity, driverRequire } = req.body
+    if (!user, !car, !totalAmount, !totalDays, !pickUpDate, !dropOffDate, !dropOffCity) {
+        res.status(400)
+        throw new Error('All fields are required')
+    } else {
+
+        // const theCar=await Cars.updateOne({_id:car},{$push:{bookedSlots:{from:pickUpDate,to:dropOffDate}}})
+        const theCar = await Cars.findById(car)
+        let selectedFrom = moment(pickUpDate)
+        let selectedTo = moment(dropOffDate)
+
+        if (theCar.bookedSlots.length > 0) {
+            for (let slot of theCar.bookedSlots) {
+                if (selectedFrom.isBetween(moment(slot.from), moment(slot.to), null, '[)') || selectedTo.isBetween(moment(slot.from), moment(slot.to), null, '(]')) {
+                    res.status(400)
+                    throw new Error('Slot is already reserved')
+                }
+            }
+        }
+        theCar.bookedSlots.push({ from: pickUpDate, to: dropOffDate })
+        await theCar.save()
+        const bookCar = await Bookings.create({
+            user, car, totalAmount, totalHours: totalDays, 'bookedSlots.from': pickUpDate, 'bookedSlots.to': dropOffDate, dropoffCity: dropOffCity, driverRequire, transactionId: 'pending'
+        })
+        if (bookCar && theCar) {
+            res.status(201).json(bookCar)
+        } else {
+            res.status(400)
+            throw new Error('Something went wrong')
+        }
+    }
+})
+// @desc Payment of booked car
+// @route POST /api/users/payment
+// @access Private
+const payment = asyncHandler(async (req, res) => {
+    const { token, totalAmount, bookingId } = req.body
+    // const customer = await stripe.customers.create({
+    //     email: token.email,
+    //     source: token.id
+    // })
+    // const payment = await stripe.charges.create({
+    //     amount: totalAmount * 100,
+    //     currency: 'inr',
+    //     customer: customer.id,
+    //     receipt_email: token.email
+    // }, {
+    //     idempotencyKey: bookingId
+    // })
+
+    const updateBookStatus = await Bookings.findByIdAndUpdate({ _id: bookingId }, { transactionId: bookingId, 'shippingAddress.name': token.card.name, 'shippingAddress.email': token.email, 'shippingAddress.address': token.card.address_line1, 'shippingAddress.city': token.card.address_city, 'shippingAddress.pincode': token.card.address_zip, })
+    if (updateBookStatus) {
+        res.status(200).json({ message: "Booking completed successfully" })
+    } else {
+        res.status(400)
+        throw new Error('Something went wrong')
+    }
+})
 
 //Generate Tocken
 const generateTocken = (id) => {
@@ -132,5 +210,8 @@ module.exports = {
     loginUser,
     getUserDetails,
     otpVerification,
-    getCars
+    getCars,
+    getCar,
+    bookCar,
+    payment
 }

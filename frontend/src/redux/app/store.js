@@ -8,12 +8,16 @@ import adminDriverReducer from '../features/adminDrivers/adminDriverSlice';
 import brandReducer from '../features/brands/brandSlice';
 import placeReducer from '../features/places/placeSlice';
 import driverReducer from '../features/driverAuth/driverAuthSlice';
+import singleCarReducer from '../features/users/cars/singleCar/singleCarSlice';
+import bookingReducer from '../features/users/booking/bookingSlice';
 
 export const store = configureStore({
   reducer: {
     // users
     auth:authReducer,
     userCars:userCarReducer,
+    singleCar:singleCarReducer,
+    booking:bookingReducer,
     // admin
     cars:carReducer,
     adminAuth:adminAuthReducer,

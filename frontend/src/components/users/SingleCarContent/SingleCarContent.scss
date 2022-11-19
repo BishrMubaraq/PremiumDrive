@@ -1,0 +1,141 @@
+$primary-color: rgba(94, 80, 63, 0.81);
+$secondary-color: rgba(242, 244, 243, 1);
+
+.single_car_container {
+    max-width: 1500px;
+    margin: auto;
+    min-height: auto;
+}
+
+.single_car_wrapper {
+    padding-top: 120px;
+    padding-bottom: 100px;
+    padding-inline: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .single_car_top_sec {
+        display: flex;
+        gap: 2rem;
+
+        .img_sec {
+         flex: 1;
+            img {
+
+                object-fit: fill;
+                width: 100%;
+                min-height: 200px;
+                max-height: 400px;
+                border-radius: 20px;
+
+            }
+        }
+
+        .single_car_details_sec {
+          flex: 1;
+          background-color: white;
+          padding: 1.5rem;
+          border-radius: 20px;
+            .name_sec {
+                color: $primary-color ;
+
+                h1 {
+                    font-size: 40px;
+                }
+
+                h4 {
+                    font-size: 20px;
+                    margin-bottom: 5px;
+                }
+            }
+
+            .fetures_sec_wrapper,.booking_sec_wrapper {
+                color: rgb(108, 108, 108);
+                background-color: $secondary-color;
+                padding: 1.5rem;
+                border-radius: 20px;
+                margin-bottom: 10px;
+
+                h3 {
+                    margin: 0;
+                    font-size: 18px;
+                    margin-bottom: 10px;
+                }
+
+                .feture {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 2rem;
+                    margin-bottom: 1rem;
+                    text-align: end;
+                    .label{
+                        text-align: start;
+                    }
+                }
+                .booking{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 1rem;
+                    .booking_field{
+                        display: flex;
+                        flex-direction: column;
+                        label{
+                            color: black;
+                            font-size: 12px;
+                        }
+                        select,input{
+                            width: 200px;
+                            padding: .3rem;
+                            border-radius: 20px;
+                            border: solid 1px $primary-color;
+                            color: $primary-color;
+                            &:focus{
+                                outline: solid 2px $primary-color;
+                            }
+                        }
+                        button{
+                            padding: 8px 10px;
+                            margin: .5rem;
+                            border-radius: 20px;
+                            border: solid 1px $primary-color;
+                            color: $primary-color;
+                            cursor: pointer;
+                            transition: all .2s ease-in;
+        
+                            &:hover{
+                               background-color: $primary-color;
+                               color: white; 
+                            }
+                        }
+                    }
+                    .booking_field_driver{
+                        display: flex;
+                        align-items: center;
+                        gap: .5rem;
+                        input{
+                            accent-color: $primary-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width:800px) {
+    .single_car_wrapper{
+
+        .single_car_top_sec {
+            flex-direction: column;
+            align-items: center;
+            
+        }
+        .single_car_details_sec{
+            width: 100%;
+        }
+    }
+}

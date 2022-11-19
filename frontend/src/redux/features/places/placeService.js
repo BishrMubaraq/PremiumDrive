@@ -17,13 +17,8 @@ const addPlace = async (place, token) => {
 }
 
 // get places
-const getPlaces=async(token)=>{
-    const config={
-        headers:{
-            Authorization:`Bearer ${token}`
-        }
-    }
-    const response=await axios.get(API_URL_PLACES,config)
+const getPlaces=async()=>{
+    const response=await axios.get(API_URL_PLACES)
     return response.data
 }
 // delete place

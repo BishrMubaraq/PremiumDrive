@@ -1,11 +1,13 @@
 import CarCard from '../CarCard/CarCard'
 import './CarContent.scss'
 import {useDispatch,useSelector} from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect,useState } from 'react'
 import {allCars,reset} from '../../../redux/features/users/cars/carSlice'
 import {toast} from 'react-toastify'
 import Spinner from '../../Spinner/Spinner'
+import FilterModal from '../FilterModal/FilterModal'
 const CarContent = () => {
+  const[showFilter,setShowFilter]=useState(false)
   const dispatch=useDispatch()
   const {cars,message,isLoading,isError}=useSelector((state)=>state.userCars)
 
@@ -23,7 +25,7 @@ const CarContent = () => {
   }
   return (
     <div className="cars_wrapper1">
-
+      {showFilter?( <FilterModal stateChange={setShowFilter} />):null}  
         <div className="car_fleet_wrapper">
       <div className="car_fleets">
         <div className="fleet_title">
@@ -35,13 +37,13 @@ const CarContent = () => {
                     <input type={'search'} placeholder='Search' />
                     <span><i className="ri-search-line"></i></span>
                 </div>
-                <span className='filter_span'><i className='filter_btn ri-filter-3-fill'></i></span>
+                <span onClick={()=>setShowFilter(true)} className='filter_span'><i className='filter_btn ri-filter-3-fill'></i></span>
             </div>
         </div>
         
         <div className="car_cards">
           {cars.map((car) => (
-            <CarCard key={car._id} name={car.name} rent={car.rent} id={car._id} image={car.image.url} />
+            <CarCard key={car._id} name={car.name} rent={car.rent} place={car.place} id={car._id} image={car.image.url} />
           ))}
         </div>
         

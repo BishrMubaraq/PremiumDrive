@@ -4,8 +4,10 @@ import './Sidebar.scss'
 import { useDispatch } from 'react-redux'
 import { adminLogout } from '../../../redux/features/adminAuth/adminAuthSlice'
 
+
 const Sidebar = () => {
-  const dispatch = useDispatch()
+ const dispatch=useDispatch()
+  
   const logout = () => {
     dispatch(adminLogout())
 
@@ -24,7 +26,7 @@ const Sidebar = () => {
                 <NavLink className={(navClass) => navClass.isActive ? "nav_active nav_link" : 'nav_link'} to='/admin/dashboard'><span><i className="ri-dashboard-fill"></i></span> <span className='nav_link_label'>Dashboard</span></NavLink>
                 <NavLink className={(navClass) => navClass.isActive ? "nav_active nav_link" : 'nav_link'} to='/admin/cars'><span><i className="ri-car-fill"></i></span> <span className='nav_link_label'>Cars</span></NavLink>
                 <NavLink className={(navClass) => navClass.isActive ? "nav_active nav_link" : 'nav_link'} to='/admin/bookings'><span><i className="ri-booklet-fill"></i></span> <span className='nav_link_label'>Bookings</span></NavLink>
-                <NavLink className={(navClass) => navClass.isActive ? "nav_active nav_link" : 'nav_link'} to='/admin/drivers'><span><i className="ri-user-2-fill"></i></span> <span className='nav_link_label'>Drivers</span></NavLink>
+                <NavLink className={(navClass) => navClass.isActive ? "nav_active nav_link" : 'nav_link'} to='/admin/drivers'><span><i className="ri-user-2-fill"></i></span> <span className='nav_link_label'>Drivers</span> <span className='badge'>0</span></NavLink>
                 <NavLink className={(navClass) => navClass.isActive ? "nav_active nav_link" : 'nav_link'} to='/admin/users'><span><i className="ri-group-fill"></i></span> <span className='nav_link_label'>Users</span></NavLink>
                 <hr />
                 <NavLink className={(navClass) => navClass.isActive ? "nav_active nav_link" : 'nav_link'} to='/admin/add-place'><span><i className="ri-landscape-fill"></i></span> <span className='nav_link_label'>Add Place</span></NavLink>

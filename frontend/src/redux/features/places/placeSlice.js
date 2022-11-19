@@ -25,8 +25,7 @@ export const addPlace = createAsyncThunk('places/add', async (place, thunkAPI) =
 // get places
 export const getPlaces = createAsyncThunk('places/get', async (_, thunkAPI) => {
     try {
-        const token = thunkAPI.getState().adminAuth.admin.token
-        return await placeService.getPlaces(token)
+        return await placeService.getPlaces()
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)

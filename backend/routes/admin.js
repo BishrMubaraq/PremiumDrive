@@ -26,14 +26,14 @@ router.post('/login', loginAdmin)
 router.get('/', adminProtect, adminDashboard)
 
 // Places
-router.get('/getPlaces', adminProtect, getPlace)
+router.get('/getPlaces', getPlace)
 router.post('/addPlace', adminProtect, addPlace)
 router.delete('/deletePlace', adminProtect, deletePlace)
 
 // Brands
-router.get('/getBrands', adminProtect, getBrands)
+router.get('/getBrands', getBrands)
 router.post('/addBrand', adminProtect, addBrand)
-router.delete('/deleteBrand',adminProtect, deleteBrand)
+router.delete('/deleteBrand', adminProtect, deleteBrand)
 
 // Car
 router.get('/cars', adminProtect, adminCars)
@@ -46,9 +46,9 @@ router.get('/users', adminProtect, adminUsers)
 router.patch('/blockAndUnblockUser', blockAndUnblockUser)
 
 // Drivers
-router.get('/drivers',adminProtect,adminDrivers)
-router.put('/approveDriver',adminProtect,approveDriver)
-router.put('/declineDriver',adminProtect,declineDriver)
+router.get('/drivers', adminProtect, adminDrivers)
+router.put('/approveDriver', adminProtect, approveDriver)
+router.put('/declineDriver', adminProtect, declineDriver)
 router.put('/blockAndUnblockDriver', blockAndUnblockDriver)
 
 module.exports = router

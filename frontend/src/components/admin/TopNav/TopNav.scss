@@ -28,7 +28,7 @@ $secondary-color: rgba(242, 244, 243, 1);
     display: flex;
     align-items: center;
     column-gap: 5px;
-    padding: 7px;
+    padding: 20px;
     color: $primary-color;
 
     input {
@@ -60,15 +60,7 @@ $secondary-color: rgba(242, 244, 243, 1);
 
 }
 
-.top_nav-right {
-    width: 20%;
-    display: flex;
-    align-items: center;
-    column-gap: 1rem;
-    justify-content: flex-end;
-    color: $primary-color;
 
-}
 
 @media screen and (max-width:1100px) {
     .top_nav{

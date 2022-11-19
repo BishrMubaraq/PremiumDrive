@@ -17,13 +17,9 @@ const addBrand = async (brand, token) => {
 }
 
 // get brands
-const getBrands=async(token)=>{
-    const config={
-        headers:{
-            Authorization:`Bearer ${token}`
-        }
-    }
-    const response=await axios.get(API_URL_BRANDS,config)
+const getBrands=async()=>{
+   
+    const response=await axios.get(API_URL_BRANDS,)
     return response.data
 }
 // delete brand
