@@ -1,7 +1,7 @@
-import axios from "axios";
+import axiosInstance from "../../../utils/axiosInstance"
 
-const API_URL_GETUSERS = 'http://localhost:5000/api/admin/users'
-const API_URL_BLOCK_UNBLOCK = 'http://localhost:5000/api/admin/blockAndUnblockUser'
+const API_URL_GETUSERS = 'admin/users'
+const API_URL_BLOCK_UNBLOCK = 'admin/blockAndUnblockUser'
 
 // Get Users
 const getUsers = async (token) => {
@@ -10,7 +10,7 @@ const getUsers = async (token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.get(API_URL_GETUSERS, config)
+    const response = await axiosInstance.get(API_URL_GETUSERS, config)
 
     return response.data
 }
@@ -20,7 +20,7 @@ const blockAndUnblock = async (id, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.patch(`${API_URL_BLOCK_UNBLOCK}?id=${id}`, config)
+    const response = await axiosInstance.patch(`${API_URL_BLOCK_UNBLOCK}?id=${id}`, config)
 
     return response.data
 }

@@ -1,9 +1,9 @@
-import axios from "axios";
+import axiosInstance from "../../../utils/axiosInstance"
 
-const API_URL_GETDRIVERS = 'http://localhost:5000/api/admin/drivers'
-const API_URL_BLOCK_UNBLOCK = 'http://localhost:5000/api/admin/blockAndUnblockDriver'
-const API_URL_APPROVE = 'http://localhost:5000/api/admin/approveDriver'
-const API_URL_DECLINE = 'http://localhost:5000/api/admin/declineDriver'
+const API_URL_GETDRIVERS = 'admin/drivers'
+const API_URL_BLOCK_UNBLOCK = 'admin/blockAndUnblockDriver'
+const API_URL_APPROVE = 'admin/approveDriver'
+const API_URL_DECLINE = 'admin/declineDriver'
 
 // Get Drivers
 const getDrivers = async (token) => {
@@ -12,7 +12,7 @@ const getDrivers = async (token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.get(API_URL_GETDRIVERS, config)
+    const response = await axiosInstance.get(API_URL_GETDRIVERS, config)
 
     return response.data
 }
@@ -24,7 +24,7 @@ const approveDriver=async(id,token)=>{
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.put(API_URL_APPROVE,{id:id},config)
+    const response = await axiosInstance.put(API_URL_APPROVE,{id:id},config)
     return response.data
 }
 
@@ -35,7 +35,7 @@ const declineDriver=async(id,token)=>{
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.put(API_URL_DECLINE,{id:id},config)
+    const response = await axiosInstance.put(API_URL_DECLINE,{id:id},config)
     return response.data
 }
 
@@ -46,7 +46,7 @@ const blockAndUnblockDriver=async(id,token)=>{
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.put(API_URL_BLOCK_UNBLOCK,{id:id},config)
+    const response = await axiosInstance.put(API_URL_BLOCK_UNBLOCK,{id:id},config)
     return response.data
 }
 

@@ -1,7 +1,8 @@
-import axios from "axios";
+import axiosInstance from "../../../../utils/axiosInstance"
 
-const API_USERS_BOOKCAR = 'http://localhost:5000/api/users/bookCar'
-const API_USERS_PAYCAR = 'http://localhost:5000/api/users/payment'
+const API_USERS_BOOKCAR = 'users/bookCar'
+const API_USERS_PAYCAR = 'users/payment'
+const API_USERS_BOOKINGS = 'users/myBookings'
 
 // Book car
 const bookCar = async (bookingData, token) => {
@@ -10,7 +11,7 @@ const bookCar = async (bookingData, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.post(API_USERS_BOOKCAR, bookingData, config)
+    const response = await axiosInstance.post(API_USERS_BOOKCAR, bookingData, config)
     return response.data
 }
 
@@ -21,12 +22,23 @@ const payCar = async (checkoutData, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.post(API_USERS_PAYCAR, checkoutData, config)
+    const response = await axiosInstance.post(API_USERS_PAYCAR, checkoutData, config)
+    return response.data
+}
+
+// User Bookings
+const userBookings=async(userId,token)=>{
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axiosInstance.get(`${API_USERS_BOOKINGS}?id=${userId}`, config)
     return response.data
 }
 
 const bookingService = {
-    bookCar, payCar
+    bookCar, payCar,userBookings
 }
 
 export default bookingService

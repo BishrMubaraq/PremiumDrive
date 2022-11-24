@@ -5,7 +5,8 @@ const Cars = require('../models/carModel')
 const Users = require('../models/userModel')
 const Place = require('../models/availablePlaceModel')
 const Brand = require('../models/brandModel')
-const Drivers= require('../models/driverModel')
+const Drivers = require('../models/driverModel')
+const Bookings = require('../models/bookingModel')
 const bcrypt = require('bcryptjs')
 const cloudinary = require('../utils/cloudinary')
 
@@ -78,12 +79,12 @@ const addPlace = asyncHandler(async (req, res) => {
 // @desc Admin delete place
 // @route DELETE /api/admin/deleteBrand
 // @access Private
-const deletePlace=asyncHandler(async(req,res)=>{
+const deletePlace = asyncHandler(async (req, res) => {
     if (!req.query.id) {
         res.status(400)
         throw new Error("Place not found")
     }
-    const deletePlace = await Place.deleteOne({_id:req.query.id})
+    const deletePlace = await Place.deleteOne({ _id: req.query.id })
 
     if (deletePlace) {
         res.status(200).json({ message: `Deleted successfully` })
@@ -126,12 +127,12 @@ const addBrand = asyncHandler(async (req, res) => {
 // @desc Admin delete Brands
 // @route DELETE /api/admin/deleteBrand
 // @access Private
-const deleteBrand=asyncHandler(async(req,res)=>{
+const deleteBrand = asyncHandler(async (req, res) => {
     if (!req.query.id) {
         res.status(400)
         throw new Error("Brand not found")
     }
-    const deleteBrand = await Brand.deleteOne({_id:req.query.id})
+    const deleteBrand = await Brand.deleteOne({ _id: req.query.id })
 
     if (deleteBrand) {
         res.status(200).json({ message: 'Deleted successfully' })
@@ -267,6 +268,18 @@ const adminUsers = asyncHandler(async (req, res) => {
         throw new Error('Something went wrong')
     }
 })
+// @desc Admin a users
+// @route GET /api/admin/user
+// @access Private
+const singleUser = asyncHandler(async (req, res) => {
+    const user = await Users.findOne({_id:req.query.id})
+    if (user) {
+        res.status(200).json(user)
+    } else {
+        res.status(400)
+        throw new Error('Something went wrong')
+    }
+})
 
 // @desc Block and Unblock users
 // @route PATCH /api/admin/blockAndUnblockUser
@@ -300,6 +313,59 @@ const blockAndUnblockUser = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc Admin all Bookings
+// @route GET /api/admin/getBookings
+// @access Private
+const adminBookings = asyncHandler(async (req, res) => {
+    const bookings = await Bookings.aggregate([
+        {
+            $lookup: {
+                from: 'cars',
+                localField: 'car',
+                foreignField: '_id',
+                as: 'carData'
+            }
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'user',
+                foreignField: '_id',
+                as: 'userData'
+            }
+        },
+        {
+            $unwind: {
+                path: '$carData'
+            }
+        },
+        {
+            $unwind: {
+                path: '$userData'
+            }
+        },
+        {
+            $project: {
+                car: 0,
+                user: 0,
+                'userData.password': 0,
+                'userData.isBlocked': 0,
+                'carData.bookedSlots': 0,
+            }
+        }, {
+            $sort: {
+                createdAt: -1
+            }
+        }
+    ])
+    if (bookings) {
+        res.status(200).json(bookings)
+    } else {
+        res.status(400)
+        throw new Error('Something went wrong')
+    }
+})
+
 // @desc Admin all drivers
 // @route GET /api/admin/drivers
 // @access Private
@@ -316,19 +382,19 @@ const adminDrivers = asyncHandler(async (req, res) => {
 // @desc Admin approve drivers
 // @route PUT /api/admin/approveDriver
 // @access Private
-const approveDriver=asyncHandler(async(req,res)=>{
+const approveDriver = asyncHandler(async (req, res) => {
     console.log(req.body);
-    if(!req.body.id){
+    if (!req.body.id) {
         res.status(400)
         throw new Error('Driver not found')
     }
-    const driver=await Drivers.findById(req.body.id)
-    const approve=await Drivers.findByIdAndUpdate(req.body.id,{
-        isApproved:true
+    const driver = await Drivers.findById(req.body.id)
+    const approve = await Drivers.findByIdAndUpdate(req.body.id, {
+        isApproved: true
     })
-    if(approve){
-        res.status(200).json({message:`${driver.name}' Account is Approved`})
-    }else{
+    if (approve) {
+        res.status(200).json({ message: `${driver.name}' Account is Approved` })
+    } else {
         res.status(400)
         throw new Error('Something went wrong')
     }
@@ -337,16 +403,16 @@ const approveDriver=asyncHandler(async(req,res)=>{
 // @desc Admin decline drivers
 // @route PUT /api/admin/declineDriver
 // @access Private
-const declineDriver=asyncHandler(async(req,res)=>{
-    if(!req.body.id){
+const declineDriver = asyncHandler(async (req, res) => {
+    if (!req.body.id) {
         res.status(400)
         throw new Error('Driver not found')
     }
-    const driver=await Drivers.findById(req.body.id)
-    const decline=await Drivers.deleteOne({_id:req.body.id})
-    if(decline){
-        res.status(200).json({message:`${driver.name}' Account is rejected`})
-    }else{
+    const driver = await Drivers.findById(req.body.id)
+    const decline = await Drivers.deleteOne({ _id: req.body.id })
+    if (decline) {
+        res.status(200).json({ message: `${driver.name}' Account is rejected` })
+    } else {
         res.status(400)
         throw new Error('Something went wrong')
     }
@@ -409,5 +475,7 @@ module.exports = {
     adminDrivers,
     approveDriver,
     declineDriver,
-    blockAndUnblockDriver
+    blockAndUnblockDriver,
+    adminBookings,
+    singleUser
 }

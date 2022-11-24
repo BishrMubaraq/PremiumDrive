@@ -1,0 +1,31 @@
+$primary-color: rgba(94, 80, 63, 0.81);
+$secondary-color: rgba(242, 244, 243, 1);
+
+.bookings_container{
+    height: 100vh;
+    padding: 100px;
+    margin: auto;
+
+   
+}
+.pending,.success,.booked,.delivered,.returned,.cancelled{
+    background-color: rgb(245, 183, 69);
+    color: white;
+    padding: 5px;
+    border-radius: 20px;
+}
+.success{
+    background-color: rgb(108, 179, 1);
+}
+.booked{
+    background-color: rgb(65, 129, 193);
+}
+.delivered{
+    background-color: rgb(108, 179, 1);
+}
+.returned{
+    background-color: rgb(188, 188, 188);
+}
+.cancelled{
+    background-color: rgb(223, 44, 44);
+}

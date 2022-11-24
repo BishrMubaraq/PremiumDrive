@@ -8,9 +8,9 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <UserRoute />
         <AdminRoute />
         <DriverRoute />
+        <UserRoute />
         <ToastContainer />
       </BrowserRouter>
     </>

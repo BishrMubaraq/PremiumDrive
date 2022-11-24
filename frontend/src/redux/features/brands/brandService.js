@@ -1,8 +1,9 @@
-import axios from 'axios'
+import axiosInstance from "../../../utils/axiosInstance"
 
-const API_URL_ADDBRAND = 'http://localhost:5000/api/admin/addBrand'
-const API_URL_BRANDS = 'http://localhost:5000/api/admin/getBrands'
-const API_URL_DELETE_BRAND = 'http://localhost:5000/api/admin/deleteBrand'
+
+const API_URL_ADDBRAND = 'admin/addBrand'
+const API_URL_BRANDS = 'admin/getBrands'
+const API_URL_DELETE_BRAND = 'admin/deleteBrand'
 
 // add brand
 const addBrand = async (brand, token) => {
@@ -11,7 +12,7 @@ const addBrand = async (brand, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.post(API_URL_ADDBRAND, brand, config)
+    const response = await axiosInstance.post(API_URL_ADDBRAND, brand, config)
 
     return response.data
 }
@@ -19,7 +20,7 @@ const addBrand = async (brand, token) => {
 // get brands
 const getBrands=async()=>{
    
-    const response=await axios.get(API_URL_BRANDS,)
+    const response=await axiosInstance.get(API_URL_BRANDS,)
     return response.data
 }
 // delete brand
@@ -29,7 +30,7 @@ const deleteBrand=async(id,token)=>{
             Authorization:`Bearer ${token}`
         }
     }
-    const response=await axios.delete(`${API_URL_DELETE_BRAND}?id=${id}`,config)
+    const response=await axiosInstance.delete(`${API_URL_DELETE_BRAND}?id=${id}`,config)
     return response.data
 }
 

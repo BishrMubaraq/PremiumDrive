@@ -67,9 +67,7 @@ $secondary-color:rgba(242, 244, 243, 1);
     height: 80%;
 }
 
-.sidebar_bottom{
-    height: 20%;
-}
+
 
 .nav_link,.sidebar_bottom span{
     display: flex;
@@ -81,7 +79,7 @@ $secondary-color:rgba(242, 244, 243, 1);
     border-radius: 20px;
     color: $primary-color;
 }
-.sidebar_bottom span{
+.logout span{
     color: red;
     cursor: pointer;
     padding-inline: 0;
@@ -127,7 +125,7 @@ $secondary-color:rgba(242, 244, 243, 1);
         background-color: $primary-color;
         color: $secondary-color;
     }
-    .sidebar_bottom span{
+    .logout span{
         color: red;
         cursor: pointer;
 

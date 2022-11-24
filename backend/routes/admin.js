@@ -18,7 +18,9 @@ const {
     adminDrivers,
     approveDriver,
     declineDriver,
-    blockAndUnblockDriver
+    blockAndUnblockDriver,
+    adminBookings,
+    singleUser
 } = require('../controllers/adminController')
 const { adminProtect } = require('../middleware/authMiddleware')
 
@@ -29,6 +31,10 @@ router.get('/', adminProtect, adminDashboard)
 router.get('/getPlaces', getPlace)
 router.post('/addPlace', adminProtect, addPlace)
 router.delete('/deletePlace', adminProtect, deletePlace)
+
+// Bookings
+router.get('/getBookings', adminProtect, adminBookings)
+
 
 // Brands
 router.get('/getBrands', getBrands)
@@ -43,6 +49,7 @@ router.put('/editCar', adminProtect, adminEditCar)
 
 // Users
 router.get('/users', adminProtect, adminUsers)
+router.get('/user', singleUser)
 router.patch('/blockAndUnblockUser', blockAndUnblockUser)
 
 // Drivers

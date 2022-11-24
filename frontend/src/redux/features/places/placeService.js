@@ -1,8 +1,8 @@
-import axios from 'axios'
+import axiosInstance from "../../../utils/axiosInstance"
 
-const API_URL_ADDPLACE = 'http://localhost:5000/api/admin/addPlace'
-const API_URL_PLACES = 'http://localhost:5000/api/admin/getPlaces'
-const API_URL_DELETE_PLACE = 'http://localhost:5000/api/admin/deletePlace'
+const API_URL_ADDPLACE = 'admin/addPlace'
+const API_URL_PLACES = 'admin/getPlaces'
+const API_URL_DELETE_PLACE = 'admin/deletePlace'
 
 // add place
 const addPlace = async (place, token) => {
@@ -11,14 +11,14 @@ const addPlace = async (place, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.post(API_URL_ADDPLACE, place, config)
+    const response = await axiosInstance.post(API_URL_ADDPLACE, place, config)
 
     return response.data
 }
 
 // get places
 const getPlaces=async()=>{
-    const response=await axios.get(API_URL_PLACES)
+    const response=await axiosInstance.get(API_URL_PLACES)
     return response.data
 }
 // delete place
@@ -28,7 +28,7 @@ const deletePlace=async(id,token)=>{
             Authorization:`Bearer ${token}`
         }
     }
-    const response=await axios.delete(`${API_URL_DELETE_PLACE}?id=${id}`,config)
+    const response=await axiosInstance.delete(`${API_URL_DELETE_PLACE}?id=${id}`,config)
     return response.data
 }
 

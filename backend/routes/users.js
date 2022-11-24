@@ -7,7 +7,8 @@ const {
     getCars,
     getCar,
     bookCar,
-    payment
+    payment,
+    myBookings
 } = require('../controllers/usersController')
 const router = express.Router()
 const { protect } = require('../middleware/authMiddleware')
@@ -20,6 +21,7 @@ router.get('/car', getCar)
 router.post('/bookCar', bookCar)
 router.post('/payment', payment)
 router.get('/me', protect, getUserDetails)
+router.get('/myBookings', protect, myBookings)
 
 
 module.exports = router

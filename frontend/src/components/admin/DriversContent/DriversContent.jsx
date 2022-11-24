@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Spinner from '../../Spinner/Spinner'
 import { useEffect } from 'react';
 import { toast } from 'react-toastify'
-import { getAllDrivers,approveDriver,declineDriver,blockAndUnblockDriver, reset } from '../../../redux/features/adminDrivers/adminDriverSlice'
+import { getAllDrivers, approveDriver, declineDriver, blockAndUnblockDriver, reset } from '../../../redux/features/adminDrivers/adminDriverSlice'
 import '../UsersContent/UsersContent.scss'
 import ImageModal from '../ImageModal/ImageModal'
 
@@ -62,7 +62,7 @@ export default function DriversContent() {
             headerName: 'License Front',
             width: 200,
             renderCell: (value) => {
-                return (<><ImageModal label={'License Front'} image={value.row.licenseFront.url} /></>)
+                return (<><ImageModal image={value.row.licenseFront.url} /></>)
             }
         },
         {
@@ -70,7 +70,7 @@ export default function DriversContent() {
             headerName: 'License Rear',
             width: 200,
             renderCell: (value) => {
-                return (<><ImageModal label={'License Rear'} image={value.row.licenseRear.url} /></>)
+                return (<><ImageModal image={value.row.licenseRear.url} /></>)
             }
         },
         {
@@ -79,8 +79,8 @@ export default function DriversContent() {
             width: 250,
             renderCell: (value) => {
                 return (<>
-                    <button onClick={()=>{dispatch(approveDriver(value.row.id))}} className='approve_btn'>Approve</button>
-                    <button onClick={()=>{dispatch(declineDriver(value.row.id))}} className='decline_btn'>Decline</button>
+                    <button onClick={() => { dispatch(approveDriver(value.row.id)) }} className='approve_btn'>Approve</button>
+                    <button onClick={() => { dispatch(declineDriver(value.row.id)) }} className='decline_btn'>Decline</button>
                 </>)
             }
         },
@@ -126,7 +126,7 @@ export default function DriversContent() {
             headerName: 'License Front',
             width: 200,
             renderCell: (value) => {
-                return (<><ImageModal label={'License Front'} image={value.row.licenseFront.url} /></>)
+                return (<><ImageModal image={value.row.licenseFront.url} /></>)
             }
         },
         {
@@ -134,7 +134,7 @@ export default function DriversContent() {
             headerName: 'License Rear',
             width: 200,
             renderCell: (value) => {
-                return (<><ImageModal label={'License Rear'} image={value.row.licenseRear.url} /></>)
+                return (<><ImageModal image={value.row.licenseRear.url} /></>)
             }
         },
         {
@@ -142,7 +142,7 @@ export default function DriversContent() {
             headerName: 'Action',
             width: 250,
             renderCell: (value) => {
-                return (<><button onClick={()=>dispatch(blockAndUnblockDriver(value.row.id))} className={value.row.isBlocked ? 'unBlock_btn' : 'block_btn'}>{value.row.isBlocked ? 'Unblock' : 'Block'}</button></>)
+                return (<><button onClick={() => dispatch(blockAndUnblockDriver(value.row.id))} className={value.row.isBlocked ? 'unBlock_btn' : 'block_btn'}>{value.row.isBlocked ? 'Unblock' : 'Block'}</button></>)
             }
         },
     ];

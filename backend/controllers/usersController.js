@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs')
 const { doSms, verifyOtp } = require('../helpers/otpVerification')
 const moment = require('moment')
 const Stripe = require('stripe')
+const { default: mongoose } = require('mongoose')
 const stripe = Stripe('sk_test_51M5R0ySBtCPIDeQ83Qb2SZR15XLhqsNwx0MsrRcjLhfxCO1vYm2zicuIkuIaAFYExiViKS5FOapeZkCJ7A88SHgk00dTxzNwMt')
 // @desc Register user
 // @route POST /api/users/register
@@ -121,8 +122,8 @@ const getCars = asyncHandler(async (req, res) => {
         throw new Error('Something went wrong!')
     }
 })
-// @desc Get all cars
-// @route GET /api/users/cars
+// @desc Get a car
+// @route GET /api/users/car
 // @access Public
 const getCar = asyncHandler(async (req, res) => {
     const car = await Cars.findById(req.query.id)
@@ -143,8 +144,6 @@ const bookCar = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('All fields are required')
     } else {
-
-        // const theCar=await Cars.updateOne({_id:car},{$push:{bookedSlots:{from:pickUpDate,to:dropOffDate}}})
         const theCar = await Cars.findById(car)
         let selectedFrom = moment(pickUpDate)
         let selectedTo = moment(dropOffDate)
@@ -170,6 +169,34 @@ const bookCar = asyncHandler(async (req, res) => {
         }
     }
 })
+
+
+// @desc Get user bookings
+// @route GET /api/users/myBookings
+// @access Private
+const myBookings = asyncHandler(async (req, res) => {
+    const id = req.query.id
+    if (!id) {
+        res.status(400)
+        throw new Error('User is not found')
+    }
+    const userBookings = await Bookings.aggregate([
+        {
+            $match: { user: mongoose.Types.ObjectId(id) }
+        },
+        {
+            $lookup: {
+                from: 'cars',
+                localField: 'car',
+                foreignField: '_id',
+                as: 'carData'
+            }
+        },
+        { $sort: { createdAt: -1 } }
+    ])
+    res.json(userBookings)
+})
+
 // @desc Payment of booked car
 // @route POST /api/users/payment
 // @access Private
@@ -188,7 +215,7 @@ const payment = asyncHandler(async (req, res) => {
     //     idempotencyKey: bookingId
     // })
 
-    const updateBookStatus = await Bookings.findByIdAndUpdate({ _id: bookingId }, { transactionId: bookingId, 'shippingAddress.name': token.card.name, 'shippingAddress.email': token.email, 'shippingAddress.address': token.card.address_line1, 'shippingAddress.city': token.card.address_city, 'shippingAddress.pincode': token.card.address_zip, })
+    const updateBookStatus = await Bookings.findByIdAndUpdate({ _id: bookingId }, { transactionId: bookingId,status:'booked', 'shippingAddress.name': token.card.name, 'shippingAddress.email': token.email, 'shippingAddress.address': token.card.address_line1, 'shippingAddress.city': token.card.address_city, 'shippingAddress.pincode': token.card.address_zip, })
     if (updateBookStatus) {
         res.status(200).json({ message: "Booking completed successfully" })
     } else {
@@ -213,5 +240,6 @@ module.exports = {
     getCars,
     getCar,
     bookCar,
-    payment
+    payment,
+    myBookings
 }

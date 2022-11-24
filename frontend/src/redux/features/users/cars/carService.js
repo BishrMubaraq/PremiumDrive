@@ -1,10 +1,10 @@
-import axios from "axios";
+import axiosInstance from "../../../../utils/axiosInstance"
 
-const API_USERS_CARS='http://localhost:5000/api/users/cars'
+const API_USERS_CARS='users/cars'
 
 // Get cars
 const getCars = async()=>{
-    const response = await axios.get(API_USERS_CARS)
+    const response = await axiosInstance.get(API_USERS_CARS)
 
     return response.data
 }

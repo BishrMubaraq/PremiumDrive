@@ -4,6 +4,7 @@ import { logout } from '../../../redux/features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
+
 const UserProfileContent = () => {
     const dispatch = useDispatch()
     const navigate=useNavigate()
@@ -26,7 +27,7 @@ const UserProfileContent = () => {
                     <button className='edit_btn'>Edit</button>
                 </div>
                 <div className="bottom_sec">
-                    <button className='booking_btn'>My Bookings</button>
+                    <button onClick={()=>navigate('/my-bookings')} className='booking_btn'>My Bookings</button>
                     <button onClick={() =>{
                         dispatch(logout())
                         navigate('/')

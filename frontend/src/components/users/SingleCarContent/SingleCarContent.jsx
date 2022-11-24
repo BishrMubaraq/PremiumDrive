@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import 'react-datepicker/dist/react-datepicker.css';
 import './SingleCarContent.scss'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -7,11 +8,14 @@ import { getPlaces, placeReset } from '../../../redux/features/places/placeSlice
 import { bookCar, bookingReset } from '../../../redux/features/users/booking/bookingSlice'
 import { toast } from 'react-toastify'
 import moment from 'moment'
+import DatePicker from 'react-datepicker'
+import BookedSlots from '../BookedSlots/BookedSlots';
 
 const SingleCarContent = () => {
   const [dropOffCity, setDropOffCity] = useState()
   const [dropOffDate, setDropOffDate] = useState()
-  const [pickUpDate, setPickUpDate] = useState()
+  const [pickUpDate, setPickUpDate] = useState();
+  const [showBookedSlots, setShowBookedSlots] = useState(false);
   const [totalDays, setTotalDays] = useState(0)
   const [driver, setDriver] = useState(false)
   const [totalAmount, setTotalAmount] = useState(0)
@@ -22,6 +26,8 @@ const SingleCarContent = () => {
   const { car, isLoading, isSuccess, isError, error } = useSelector((state) => state.singleCar)
   const { bookingIsLoading, bookingMessage, bookingIsSuccess, bookingIsError, bookingError } = useSelector((state) => state.booking)
   const { places } = useSelector((state) => state.places)
+
+  let bookedSlots = car?.bookedSlots
 
   useEffect(() => {
     dispatch(getCar(state.id))
@@ -35,8 +41,8 @@ const SingleCarContent = () => {
   }, [])
 
   useEffect(() => {
-    if (pickUpDate) {
-      setTotalDays(dropOffDate.diff(pickUpDate, 'hours'))
+    if (dropOffDate) {
+      setTotalDays(moment(dropOffDate).diff(moment(pickUpDate), 'hours'))
     }
     if (totalDays) {
       if (pickUpDate < dropOffDate) {
@@ -50,24 +56,17 @@ const SingleCarContent = () => {
       }
     }
 
-  }, [dropOffDate, totalDays, driver])
+  }, [dropOffDate, totalDays, driver, pickUpDate])
 
   useEffect(() => {
     if (bookingIsError) {
       toast.error(bookingError)
     }
     if (bookingIsSuccess) {
-      navigate("/checkout",{state:bookingMessage})
+      navigate("/checkout", { state: {bookingMessage,car:car} })
     }
     dispatch(bookingReset())
   }, [bookingIsError, bookingIsSuccess, bookingError, navigate])
-
-  const onPickupDate = (values) => {
-    setPickUpDate(moment(values.target.value))
-  }
-  const onDropoffDate = (values) => {
-    setDropOffDate(moment(values.target.value));
-  }
 
   function onSubmit(e) {
     e.preventDefault()
@@ -80,20 +79,20 @@ const SingleCarContent = () => {
         toast.error('Please add Date')
       }
     } else {
-      let userID = JSON.parse(localStorage.getItem('user'))._id
-      const reqObj = {
-        user: userID,
-        car: car._id,
-        totalAmount,
-        totalDays,
-        pickUpDate,
-        dropOffDate,
-        dropOffCity,
-        driverRequire: driver
-      }
-      if (!userID) {
+      let user = JSON.parse(localStorage.getItem('user'))
+      if (!user) {
         navigate('/login')
       } else {
+        const reqObj = {
+          user: user._id,
+          car: car._id,
+          totalAmount,
+          totalDays,
+          pickUpDate,
+          dropOffDate,
+          dropOffCity,
+          driverRequire: driver
+        }
         if (totalDays >= 1) {
           bookDispatch(bookCar(reqObj))
         } else {
@@ -164,11 +163,27 @@ const SingleCarContent = () => {
                   </div>
                   <div className="booking_field">
                     <label htmlFor="">Pickup Date</label>
-                    <input type={'datetime-local'} onChange={onPickupDate} />
+                    <DatePicker
+                      selected={pickUpDate}
+                      minDate={Date.now()}
+                      showTimeSelect
+                      timeIntervals={60}
+                      dateFormat="MMM d, yyyy h:mm aa"
+                      onChange={(date) => { setPickUpDate(date) }}
+                      placeholderText="Select Pickup date" />
                   </div>
                   <div className="booking_field">
                     <label htmlFor="">Dropoff Date</label>
-                    <input type={'datetime-local'} onChange={onDropoffDate} />
+                    <DatePicker selected={dropOffDate}
+                      minDate={Date.now()}
+                      showTimeSelect timeIntervals={60}
+                      dateFormat="MMM d, yyyy h:mm aa"
+                      onChange={(date) => { setDropOffDate(date) }}
+                      placeholderText="Select Dropoff date" />
+                  </div>
+                  <div className="booking_field_driver">
+                    <div onClick={() => setShowBookedSlots(true)} className='booked_slots'>Booked Slots</div>
+                    {showBookedSlots && <BookedSlots stateChange={setShowBookedSlots} data={bookedSlots} />}
                   </div>
                   <div className="booking_field_driver">
                     <input onChange={(e) => {
@@ -181,11 +196,11 @@ const SingleCarContent = () => {
                     <label htmlFor="">Driver required</label>
                   </div>
                   <div className="booking_field">
-                    <p>Total hours : {totalDays>=1?totalDays:0}</p>
+                    <p>Total hours : {totalDays >= 1 ? totalDays : 0}</p>
                     <h1>Total : ₹ {totalAmount}</h1>
                   </div>
                   <div className="booking_field">
-                    <button type='submit'>Book Now</button>
+                    <button className='submitBtn' type='submit'>Book Now</button>
                   </div>
                 </form>
               </div>

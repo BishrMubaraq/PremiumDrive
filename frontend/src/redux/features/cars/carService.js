@@ -1,8 +1,8 @@
-import axios from 'axios'
+import axiosInstance from "../../../utils/axiosInstance"
 
-const API_URL_ADDCAR = 'http://localhost:5000/api/admin/addCars'
-const API_URL_CARS = 'http://localhost:5000/api/admin/cars'
-const API_URL_DELETE_CAR = 'http://localhost:5000/api/admin/deleteCar'
+const API_URL_ADDCAR = 'admin/addCars'
+const API_URL_CARS = 'admin/cars'
+const API_URL_DELETE_CAR = 'admin/deleteCar'
 
 // add car
 const addCar = async (carData, token) => {
@@ -11,7 +11,7 @@ const addCar = async (carData, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.post(API_URL_ADDCAR, carData, config)
+    const response = await axiosInstance.post(API_URL_ADDCAR, carData, config)
 
     return response.data
 }
@@ -23,7 +23,7 @@ const cars = async(token)=>{
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.get(API_URL_CARS, config)
+    const response = await axiosInstance.get(API_URL_CARS, config)
 
     return response.data
 }
@@ -35,7 +35,7 @@ const deleteCar=async(id,token)=>{
             Authorization: `Bearer ${token}`
         }
     }
-    const response=await axios.patch(`${API_URL_DELETE_CAR}?id=${id}`,config)
+    const response=await axiosInstance.patch(`${API_URL_DELETE_CAR}?id=${id}`,config)
     return response.data
 }
 

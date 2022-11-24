@@ -9,7 +9,8 @@ const bookingSchema = mongoose.Schema({
     totalHours: { type: String, required: [true, 'Total Hours is required'] },
     driverRequire: { type: Boolean, required: [true, 'Driver status required'] },
     transactionId: { type: String, required: [true, 'Transaction Id is required'] },
-    shippingAddress:{name:{type:String},email:{type:String},address:{type:String},city:{type:String},pincode:{type:String}}
+    status: { type: String, default: 'pending' },
+    shippingAddress: { name: { type: String }, email: { type: String }, address: { type: String }, city: { type: String }, pincode: { type: String } }
 }, { timestamps: true })
 
 module.exports = mongoose.model('Bookings', bookingSchema)

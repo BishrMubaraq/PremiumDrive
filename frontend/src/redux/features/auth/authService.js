@@ -1,12 +1,13 @@
-import axios from 'axios'
+import axiosInstance from "../../../utils/axiosInstance"
 
-const API_URL_REGISTER = 'http://localhost:5000/api/users/register/'
-const API_URL_LOGIN = 'http://localhost:5000/api/users/login/'
-const API_URL_OTP = 'http://localhost:5000/api/users/otp'
+
+const API_URL_REGISTER = 'users/register/'
+const API_URL_LOGIN = 'users/login/'
+const API_URL_OTP = 'users/otp'
 
 // Register user
 const register = async (userData) => {
-    const response = await axios.post(API_URL_REGISTER, userData)
+    const response = await axiosInstance.post(API_URL_REGISTER, userData)
 
     if (response.data) {
         localStorage.setItem('userData', JSON.stringify(userData))
@@ -17,7 +18,7 @@ const register = async (userData) => {
 
 // Otp Verification
 const otp = async (data) => {
-    const response = await axios.post(API_URL_OTP, data)
+    const response = await axiosInstance.post(API_URL_OTP, data)
 
     if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
@@ -27,7 +28,7 @@ const otp = async (data) => {
 
 // Login user
 const login = async (userData) => {
-    const response = await axios.post(API_URL_LOGIN, userData)
+    const response = await axiosInstance.post(API_URL_LOGIN, userData)
 
     if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
