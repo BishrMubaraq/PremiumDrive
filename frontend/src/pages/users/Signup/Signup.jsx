@@ -62,7 +62,7 @@ function Signup() {
             {errors.email && <p className="errorMessage">{errors.email?.message}</p>}
           </div>
           <div>
-            <input type={'tel'} name='phoneNumber' placeholder='Phone Nuber' {...register('phoneNumber', { required: 'Please enter phone number', minLength: { value: 10, message: 'Phone number must be 10 numbers' }, maxLength: { value: 10, message: 'Phone number cannot exceed more than 10 numbers' } })} />
+            <input type={'tel'} name='phoneNumber' placeholder='Phone Number' {...register('phoneNumber', { required: 'Please enter phone number', minLength: { value: 10, message: 'Phone number must be 10 numbers' }, maxLength: { value: 10, message: 'Phone number cannot exceed more than 10 numbers' } })} />
             {errors.phoneNumber && <p className="errorMessage">{errors.phoneNumber?.message}</p>}
           </div>
           <div>

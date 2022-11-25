@@ -18,8 +18,7 @@ const addMessage=asyncHandler(async(req,res)=>{
 // @route GET /api/message/
 // @access Private
 const getMessage=asyncHandler(async(req,res)=>{
-    const {chatId}=req.query
-    const result = await Message.find({chatId})
+    const result = await Message.find({chatId:req.query.chatId})
     res.status(200).json(result)
 })
 

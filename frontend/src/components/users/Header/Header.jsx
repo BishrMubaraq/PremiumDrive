@@ -8,9 +8,18 @@ function Header() {
 
     const [showMenu, setShowMenu] = useState(false)
 
+
     const navigate = useNavigate()
 
     const { user } = useSelector((state) => state.auth)
+    const senderData = {}
+    const receiverData = {}
+
+    if (user) {
+        senderData._id = user._id
+        receiverData._id = process.env.REACT_APP_ADMIN_ID
+    }
+
     return (
         <header className='header'>
             <div className="header_wrapper">
@@ -29,11 +38,11 @@ function Header() {
                     <div className='register_part'>
                         {!user ? <button onClick={() => {
                             navigate('/login')
-                        }}>Login</button> : <span ><i onClick={() => navigate('/ask-to-admin',{state:{_id:process.env.REACT_APP_ADMIN_ID}})} className="ri-chat-1-fill"></i><i onClick={() => navigate('/profile')} className="ri-account-circle-fill"></i></span>}
+                        }}>Login</button> : <span ><i onClick={() => navigate('/ask-to-admin', { state: { senderData, receiverData } })} className="ri-chat-1-fill"></i><i onClick={() => navigate('/profile')} className="ri-account-circle-fill"></i></span>}
                     </div>
 
                     <div className="menu">
-                       {user && <h2><i onClick={() => navigate('/ask-to-admin',{state:{_id:process.env.REACT_APP_ADMIN_ID}})} className="ri-chat-1-fill"></i></h2>}
+                        {user && <h2><i onClick={() => navigate('/ask-to-admin', { state: { senderData, receiverData } })} className="ri-chat-1-fill"></i></h2>}
                         <h2 onClick={() => setShowMenu(!showMenu)}><i className="ri-menu-3-line"></i></h2>
                     </div>
 

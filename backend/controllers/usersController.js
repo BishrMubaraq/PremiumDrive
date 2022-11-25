@@ -9,6 +9,7 @@ const moment = require('moment')
 const Stripe = require('stripe')
 const { default: mongoose } = require('mongoose')
 const stripe = Stripe('sk_test_51M5R0ySBtCPIDeQ83Qb2SZR15XLhqsNwx0MsrRcjLhfxCO1vYm2zicuIkuIaAFYExiViKS5FOapeZkCJ7A88SHgk00dTxzNwMt')
+const Chat = require('../models/chatModel')
 // @desc Register user
 // @route POST /api/users/register
 // @access Public
@@ -56,7 +57,12 @@ const otpVerification = asyncHandler(async (req, res) => {
             password: hashedPassword
         })
 
+
         if (user) {
+            const newChat = new Chat({
+                members: [`${user._id}`, '634ab5d8cd37fdcbfdcb2803']
+            })
+            const result = await newChat.save()
             res.status(201).json({
                 _id: user.id,
                 name: user.name,
@@ -82,7 +88,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const user = await Users.findOne({ email })
 
     // Check for user status
-    if (user.isBlocked) {
+    if (user?.isBlocked) {
         res.status(400).json({ message: 'Account Blocked' })
     }
 
@@ -215,7 +221,7 @@ const payment = asyncHandler(async (req, res) => {
     //     idempotencyKey: bookingId
     // })
 
-    const updateBookStatus = await Bookings.findByIdAndUpdate({ _id: bookingId }, { transactionId: bookingId,status:'booked', 'shippingAddress.name': token.card.name, 'shippingAddress.email': token.email, 'shippingAddress.address': token.card.address_line1, 'shippingAddress.city': token.card.address_city, 'shippingAddress.pincode': token.card.address_zip, })
+    const updateBookStatus = await Bookings.findByIdAndUpdate({ _id: bookingId }, { transactionId: bookingId, status: 'booked', 'shippingAddress.name': token.card.name, 'shippingAddress.email': token.email, 'shippingAddress.address': token.card.address_line1, 'shippingAddress.city': token.card.address_city, 'shippingAddress.pincode': token.card.address_zip, })
     if (updateBookStatus) {
         res.status(200).json({ message: "Booking completed successfully" })
     } else {
